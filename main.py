@@ -293,15 +293,16 @@ async def register_user(user: types.User):
 
 
 async def init_db():
-    async with aiosqlite.connect(DB_PATH) as db:
-        # 📦 Таблица marketplace
+    async with aiosqlite.connect("sakurarep.db") as db:
         await db.execute("""
-            CREATE TABLE IF NOT EXISTS marketplace (
-                nickname TEXT PRIMARY KEY,
-                seller_id INTEGER,
-                price INTEGER
+            CREATE TABLE IF NOT EXISTS users (
+                user_id INTEGER PRIMARY KEY,
+                sakura INTEGER DEFAULT 0,
+                starter_bonus INTEGER DEFAULT 0,
+                custom_name TEXT DEFAULT NULL
             )
         """)
+        await db.commit()
 
         # 🎮 Лог игры "хел"
         await db.execute("""
